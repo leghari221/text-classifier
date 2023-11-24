@@ -18,14 +18,18 @@ model = AutoModelForSequenceClassification.from_pretrained("Softechlb/articles_c
 
 st.title('Categorical Classifier(news,sports,poiltics,business,health,entertainment)')
 user_input = st.text_input("Enter your data here", "")
+
+# When the predict button is clicked
 button_clicked = st.button("Predict")
 if button_clicked:
+    # Tokenize the input and get the model's output
     inputs = tokenizer(user_input, padding=True, truncation=True, max_length=512, return_tensors="pt")
-    outputs = model(inputs["input_ids"], attention_mask=inputs["attention_mask"])
+    outputs = model(**inputs)
+
+    # Get the predicted label
     predicted_label_index = torch.argmax(outputs.logits).item()
     predicted_label_name = category_names[predicted_label_index]
-    
-    with st.beta_container():
-        st.markdown(f'## Prediction: {predicted_label_name}')
 
+    # Display the prediction
+    st.markdown(f'## Prediction: {predicted_label_name}')
 
