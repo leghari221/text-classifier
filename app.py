@@ -16,7 +16,7 @@ import torch
 tokenizer = AutoTokenizer.from_pretrained("Softechlb/articles_classification")
 model = AutoModelForSequenceClassification.from_pretrained("Softechlb/articles_classification")
 
-st.title('My Classifier')
+st.title('Categorical Classifier')
 user_input = st.text_input("Enter your data here", "")
 button_clicked = st.button("Predict")
 if button_clicked:
