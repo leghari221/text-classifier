@@ -13,10 +13,18 @@ import streamlit as st
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 
-tokenizer = AutoTokenizer.from_pretrained("Softechlb/articles_classification")
-model = AutoModelForSequenceClassification.from_pretrained("Softechlb/articles_classification")
+# Load the model and tokenizer
+model_name = "Softechlb/articles_classification"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForSequenceClassification.from_pretrained(model_name)
 
-st.title('Categorical Classifier(news,sports,poiltics,business,health,entertainment)')
+# Define the category names
+category_names = ["news", "sports", "politics", "business", "health", "entertainment"]
+
+# Set the title of the app
+st.title('Categorical Classifier(news,sports,politics,business,health,entertainment)')
+
+# Get the user input
 user_input = st.text_input("Enter your data here", "")
 
 # When the predict button is clicked
@@ -30,6 +38,6 @@ if button_clicked:
     predicted_label_index = torch.argmax(outputs.logits).item()
     predicted_label_name = category_names[predicted_label_index]
 
-    # Display the prediction
-    st.markdown(f'## Prediction: {predicted_label_name}')
-
+    # Create a container for the prediction
+    with st.beta_container():
+        st.markdown(f'## Prediction: {predicted_label_name}')
