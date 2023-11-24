@@ -17,8 +17,12 @@ tokenizer = AutoTokenizer.from_pretrained("Softechlb/articles_classification")
 model = AutoModelForSequenceClassification.from_pretrained("Softechlb/articles_classification")
 
 st.title('My Classifier')
-user_input = st.text_input("Enter your data here")
-inputs = tokenizer(user_input, padding=True, truncation=True, max_length=512, return_tensors="pt")
-outputs = model(inputs["input_ids"], attention_mask=inputs["attention_mask"])
-predicted_label = torch.argmax(outputs.logits)
-st.write(f'Prediction: {predicted_label}')
+user_input = st.text_input("Enter your data here", "")
+button_clicked = st.button("Predict")
+if button_clicked:
+    inputs = tokenizer(user_input, padding=True, truncation=True, max_length=512, return_tensors="pt")
+    outputs = model(inputs["input_ids"], attention_mask=inputs["attention_mask"])
+    predicted_label_index = torch.argmax(outputs.logits).item()
+    predicted_label_name = category_names[predicted_label_index]
+    st.write(f'Prediction: {predicted_label_name}')
+
